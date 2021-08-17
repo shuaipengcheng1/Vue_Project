@@ -1,10 +1,26 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+ <router-view/>
+ <Bottom/>
 </template>
+
+<script>
+import Bottom from './components/bottomBtn.vue'
+
+export default {
+   components:{
+      Bottom
+    },
+  setup() {
+    var a=10
+   
+    
+    return{
+      a,
+      Bottom
+    }
+  },
+}
+</script>
 
 <style lang="less">
 #app {
