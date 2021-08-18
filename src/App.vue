@@ -1,25 +1,22 @@
 <template>
- <router-view/>
- <Bottom/>
+  <router-view />
+  <Bottom />
 </template>
 
 <script>
-import Bottom from './components/bottomBtn.vue'
+
+import Bottom from "./components/bottomBtn.vue";
 
 export default {
-   components:{
-      Bottom
-    },
-  setup() {
-    var a=10
-   
-    
-    return{
-      a,
-      Bottom
-    }
+  components: {
+    Bottom,
   },
-}
+  setup() {
+    return {
+      Bottom,
+    };
+  },
+};
 </script>
 
 <style lang="less">

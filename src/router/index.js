@@ -3,7 +3,7 @@ import main from '../views/main.vue'
 import personal from '../views/Personal.vue'
 import caft from '../views/Caft.vue'
 import part from '../views/Part.vue'
-
+import serch from '../views/serch.vue'
 const routes = [
   {
     path: '/',
@@ -24,6 +24,11 @@ const routes = [
     path:'/part',
     name:"part",
     component:part
+  },
+  {
+    path:"/serch",
+    name:"serch",
+    component:serch
   }
 ]
 

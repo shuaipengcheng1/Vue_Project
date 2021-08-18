@@ -1,5 +1,6 @@
 <template>
   <!-- 底部组件 -->
+  
   <div class="bottom_btn_list">
     <div class="query_btn">
       <router-link to="/">
