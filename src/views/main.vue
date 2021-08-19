@@ -18,23 +18,47 @@
     </template>
     <template v-slot:fallback>
       <!-- 第二个是用于过度显示的信息 -->
-      <h1>轮播图正在加载中</h1>
+      <h1>正在加载中</h1>
+    </template>
+  </Suspense>
+  
+  <Suspense>
+    <template #default>
+      <!-- 分类 -->
+      <Part />
+    </template>
+    <template v-slot:fallback>
+      <!-- 第二个是用于过度显示的信息 -->
+      <h1>正在加载中</h1>
     </template>
   </Suspense>
 
-  <!-- 分类 -->
-
   <!-- 楼层 -->
+    <Suspense>
+    <template #default>
+      <!-- 分类 -->
+      <Floor />
+    </template>
+    <template v-slot:fallback>
+      <!-- 第二个是用于过度显示的信息 -->
+      <h1>正在加载中</h1>
+    </template>
+  </Suspense>
+  <div style="height:80px"></div>
 </template>
  <script lang='ts'>
 import { defineComponent } from "vue";
+import Floor from '../components/Floor.vue'
 import Lunbo from "../components/Lunbotu.vue";
+import Part from "../components/part.vue";
 // 引入请求hook
 
 export default defineComponent({
   name: "App",
   components: {
     Lunbo,
+    Part,
+    Floor
   },
   setup() {},
 });

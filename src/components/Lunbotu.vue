@@ -33,14 +33,7 @@ import Request from "../hooks/axios";
 export default defineComponent({
   name: "lunbotu",
   mounted() {
-    
-    
-    
-    
 
-    
-    
- 
     var focus = this.$refs.foucs;
     var ul = focus.children[0];
     var ol = focus.children[1];

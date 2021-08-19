@@ -45,9 +45,10 @@ export default defineComponent({
 <style lang="less">
 .bottom_btn_list {
   display: flex;
+  position: fixed;
   justify-content: space-around;
   height: 10vh;
-  position: absolute;
+  // position: absolute;
   bottom: 0px;
   background-color: rgb(236, 236, 236);
   width: 100vw;
