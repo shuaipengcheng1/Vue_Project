@@ -33,7 +33,7 @@ var corsOptions = {
 // 引入路由
 var loginRouter = require('./routes/login')
 var submitRouter = require('./routes/submit')
-
+var exitRouter = require('./routes/exit')
 
 // 解析post
 app.use(express.urlencoded({ extended: false })); //在req.body中
@@ -43,7 +43,7 @@ app.use(session({
     saveUninitialized: true, //保存初始值
     secret: 'misaka',//密盐
     cookie: {
-        maxAge: 100000 //生命周期
+        maxAge: 1000000 //生命周期
     }
 }))
 
@@ -51,6 +51,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 注册路由
 app.use('/login', loginRouter)
 app.use('/submit', submitRouter)
+app.use('/exit',exitRouter)
+
 
 app.get('/',(req,res)=>{
     res.send('hello')

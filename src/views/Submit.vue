@@ -1,9 +1,9 @@
  <template>
   <!--注册路由 -->
   <div class="submit_box">
-    <input type="text" placeholder="输入用户名" v-model="username" />
-    <input type="password" placeholder="输入密码" v-model="password" />
-    <input type="text" placeholder="头像的连接(可选项)" v-model="icon" />
+    <input type="text" placeholder="输入用户名" @keyup.enter="submit" v-model="username" />
+    <input type="password" placeholder="输入密码" @keyup.enter="submit" v-model="password" />
+    <input type="text" placeholder="头像的连接(可选项)" v-model="icon" @keyup.enter="submit" />
 
     <button @click="submit">提交</button>
   </div>

@@ -31,11 +31,22 @@ export default defineComponent({
         // 允许跨域cookie
         withCredentials: true,
       });
+      // 获取缓存的用户信息
+      var info=d.data.data.data[0];
+      console.log(d.data)
+      var user = info.name;
+      var icon = info.icon
+      var imgname = d.data.imgname
       // 判断缓存状态
       if(d.data.status){
         // 成功
         router.push({
-          path:"/self_center"
+          path:"/self_center",
+          query:{
+            user,
+            icon,
+            imgname
+          }
         })
       }
     }

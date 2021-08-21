@@ -59,6 +59,11 @@ router.post('/', (req, res) => {
             }
         })
 
+    }else{
+        res.send({
+            status:false,
+            message:"密码大于6位"
+        })
     }
 
 })

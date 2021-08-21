@@ -1,10 +1,20 @@
  <template>
- <h1>登录页面</h1>
+  <h1>登录页面</h1>
   <!-- 登录路由 -->
   <div class="login_box">
-    <input type="text" placeholder="输入用户名" v-model="username" @keyup.enter="submit"/>
-    <input type="password" placeholder="输入密码" v-model="password" @keyup.enter="submit"/>
-    <button @click="submit" >提交</button>
+    <input
+      type="text"
+      placeholder="输入用户名"
+      v-model="username"
+      @keyup.enter="submit"
+    />
+    <input
+      type="password"
+      placeholder="输入密码"
+      v-model="password"
+      @keyup.enter="submit"
+    />
+    <button @click="submit">提交</button>
   </div>
   <!-- 跳转注册 -->
   <div class="sub">
@@ -20,13 +30,13 @@ export default defineComponent({
 
   setup() {
     // -------------------- 路由跳转时赋值
- 
+
     var username = ref();
     var password = ref();
-    var router = useRoute();
-    var rou = useRouter();
-    username.value = router.query.username;
-    password.value = router.query.password;
+    var route = useRoute();
+    var router = useRouter();
+    username.value = route.query.username;
+    password.value = route.query.password;
     // --------------------------------
 
     // 登录操作
@@ -39,17 +49,35 @@ export default defineComponent({
           password: password.value,
         },
         // 允许跨域cookie
-        withCredentials:true
+        withCredentials: true,
       });
       console.log(data);
       if (data.data.status) {
         //   如果为成功 修改状态 并且跳转
-        rou.push({
-          path: "/personal",
-          query: {
-            status: true,
-          },
-        });
+        // rou.push({
+        //   path: "/personal",
+        //   query: {
+        //     status: true,
+        //   },
+        // });
+        // 获取用户信息
+        var info = data.data.data.data[0];
+        console.log(data.data);
+        var user = info.name;
+        var icon = info.icon;
+        var imgname = data.data.imgname;
+      
+        if (data.data.status) {
+          // 成功
+          router.push({
+            path: "/self_center",
+            query: {
+              user,
+              icon,
+              imgname,
+            },
+          });
+        }
       }
     };
 

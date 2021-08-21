@@ -3,6 +3,8 @@ var mysql = require('mysql')
 var express = require('express')
 var router = express.Router()
 var cors = require('cors')
+var Download = require('../hook/download')
+var fs = require('fs')
 var database = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -17,16 +19,36 @@ database.connect((err) => {
 })
 // 缓存登录
 router.get('/', (req, res) => {
+    // 设置跨域
     res.setHeader('Access-Control-Allow-Origin', "http://localhost:8080")
-
+    //    设置接收前端的cookie
     res.setHeader('Access-Control-Allow-Credentials', true)
     console.log(req.session)
     // 判断缓存
     if (req.session.username != undefined) {
-        res.send({
-            message: "缓存登录",
-            status: true
+
+        // 获取该用户的信息
+        database.query(`select * from user where name ="${req.session.username}"`, async (err, data) => {
+            // 下载用户的头像到本地服务器
+            console.log("路径" + data[0].icon)
+            var imgname = await Download({
+                url: data[0].icon,
+                // 返回类型为buffer文件类型
+                responseType: 'arraybuffer'
+            }, data[0].name)
+
+            console.log("图片-------------" + imgname)
+            res.send({
+                message: "缓存登录",
+                status: true,
+                imgname,
+                data: {
+                    data,
+
+                }
+            })
         })
+
     }
 
 })
@@ -48,7 +70,7 @@ router.post('/', (req, res) => {
 
     var { username, password } = req.body
 
- 
+
     //  不能为空
     if (username == undefined || password == undefined) {
         res.send({
@@ -57,7 +79,7 @@ router.post('/', (req, res) => {
         })
     } else {
         // 查找数据库
-        database.query(`SELECT * From user where name ="${username}" AND password="${password}"`, (err, data) => {
+        database.query(`SELECT * From user where name ="${username}" AND password="${password}"`, async (err, data) => {
             console.log(data)
             if (data.length > 0) {
                 // 存储cookie
@@ -66,11 +88,25 @@ router.post('/', (req, res) => {
                 console.log(req.session)
                 // 登录的人的密码
                 req.session.password = password
+                // 下载用户的头像到本地服务器
+                console.log("路径" + data[0].icon)
+                var imgname = await Download({
+                    url: data[0].icon,
+                    // 返回类型为buffer文件类型
+                    responseType: 'arraybuffer'
+                }, data[0].name)
 
+                console.log("图片-------------" + imgname)
                 res.send({
-                    message: "登录成功",
-                    status: true
+                    message: "登录",
+                    status: true,
+                    imgname,
+                    data: {
+                        data,
+
+                    }
                 })
+
             } else {
                 res.send({
                     message: "登录失败",
