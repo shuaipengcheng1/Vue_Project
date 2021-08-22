@@ -34,7 +34,7 @@ var corsOptions = {
 var loginRouter = require('./routes/login')
 var submitRouter = require('./routes/submit')
 var exitRouter = require('./routes/exit')
-
+var uploadRouter = require('./routes/upload')
 // 解析post
 app.use(express.urlencoded({ extended: false })); //在req.body中
 app.use(express.json());
@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/login', loginRouter)
 app.use('/submit', submitRouter)
 app.use('/exit',exitRouter)
-
+app.use('/upload',uploadRouter)
 
 app.get('/',(req,res)=>{
     res.send('hello')

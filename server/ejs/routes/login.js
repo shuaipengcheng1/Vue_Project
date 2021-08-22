@@ -31,27 +31,47 @@ router.get('/', (req, res) => {
         database.query(`select * from user where name ="${req.session.username}"`, async (err, data) => {
             // 下载用户的头像到本地服务器
             console.log("路径" + data[0].icon)
-            var imgname = await Download({
-                url: data[0].icon,
-                // 返回类型为buffer文件类型
-                responseType: 'arraybuffer'
-            }, data[0].name)
+            // 是本地文件
+            if (/^img/.test(data[0].icon)) {
+                // 直接赋值
+                var imgname = data[0].icon
+                res.send({
+                    message: "缓存登录",
+                    status: true,
+                    imgname,
+                    data: {
+                        data,
 
-            console.log("图片-------------" + imgname)
-            res.send({
-                message: "缓存登录",
-                status: true,
-                imgname,
-                data: {
-                    data,
+                    }
+                })
+            } else {
+                console.log(data[0].icon)
+                console.log(data[0])
+                // 是网络链接
+                var imgname = await Download({
+                    url: data[0].icon,
+                    // 返回类型为buffer文件类型
+                    responseType: 'arraybuffer'
+                }, data[0].name)
 
-                }
-            })
+                console.log("图片-------------" + imgname)
+                res.send({
+                    message: "缓存登录",
+                    status: true,
+                    imgname,
+                    data: {
+                        data,
+
+                    }
+                })
+            }
+
         })
 
     }
 
 })
+// 按钮登录
 router.post('/', (req, res) => {
     // console.log()
     res.setHeader('Access-Control-Allow-Origin', "http://localhost:8080")
@@ -88,24 +108,45 @@ router.post('/', (req, res) => {
                 console.log(req.session)
                 // 登录的人的密码
                 req.session.password = password
-                // 下载用户的头像到本地服务器
-                console.log("路径" + data[0].icon)
-                var imgname = await Download({
-                    url: data[0].icon,
-                    // 返回类型为buffer文件类型
-                    responseType: 'arraybuffer'
-                }, data[0].name)
 
-                console.log("图片-------------" + imgname)
-                res.send({
-                    message: "登录",
-                    status: true,
-                    imgname,
-                    data: {
-                        data,
+                
+                // 是本地文件
+                if (/^img/.test(data[0].icon)) {
+                    // 直接赋值
+                    //"project\public\images\img_dadas.jpeg"
+                    var imgname = data[0].icon
+                    res.send({
+                        message: "登录",
+                        status: true,
+                        imgname,
+                        data: {
+                            data,
 
-                    }
-                })
+                        }
+                    })
+                } else {
+                    // 下载用户的头像到本地服务器
+                    console.log("路径" + data[0].icon)
+                    var imgname = await Download({
+                        url: data[0].icon,
+                        // 返回类型为buffer文件类型
+                        responseType: 'arraybuffer'
+                    }, data[0].name)
+
+                    console.log("图片-------------" + imgname)
+                    res.send({
+                        message: "登录",
+                        status: true,
+                        imgname,
+                        data: {
+                            data,
+
+                        }
+                    })
+                }
+
+
+
 
             } else {
                 res.send({

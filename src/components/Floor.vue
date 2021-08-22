@@ -43,6 +43,9 @@ export default defineComponent({
         width: 100%;
     }
 }
+.box{
+  height: auto;
+}
 .shop_part{
     display: flex;
     width: 100vw;

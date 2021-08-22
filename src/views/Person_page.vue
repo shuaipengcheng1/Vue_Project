@@ -1,11 +1,12 @@
  <template>
   <!-- 个人页面 -->
   <!-- 进入时 发送请求 查看是否由缓存 否则登录 -->
+  <div style="height:1200px;">
   <h1>个人页面</h1>
   <div class="mohu" :style="style">
     <!-- 头像高斯模糊背景 -->
   </div>
-  <div class="box">
+  <div class="boxs">
     <div class="mohu_cover">
       <!-- 高斯模糊遮罩层 -->
       <!-- 头像 -->
@@ -17,12 +18,28 @@
   <div class="name_box">
     <p>{{ user }}</p>
   </div>
+    <el-upload
+  class="upload-demo"
+  drag
+  name='img'
+  with-credentials="true"
+  action="http://localhost:3000/upload/page/p"
+  multiple>
+  <i class="el-icon-upload"></i>
+  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+  <template #tip>
+    <div class="el-upload__tip">
+      只能上传 jpg/png 文件，且不超过 500kb
+    </div>
+  </template>
+</el-upload>
   <!-- 注销  删除对应的session req.session.destory-->
   <p class="del" @click="off">注销</p>
+  </div>
 </template>
  <script >
 import Request from "../hooks/axios";
-
+import { ElMessage } from "element-plus";
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 export default defineComponent({
@@ -46,17 +63,16 @@ export default defineComponent({
     } else {
       // 获取用户信息
       console.log(route.query);
-    
+
       user.value = route.query.user;
       icon.value = route.query.icon;
       imgname.value = route.query.imgname;
-    //     Request({
-    //       url:`http://localhost:8080/images/${imgname.value}`,
-    //       method:"GET"
-    //   })
+      //     Request({
+      //       url:`http://localhost:8080/images/${imgname.value}`,
+      //       method:"GET"
+      //   })
       //   下载图片到本地的images文件夹中 设置为一个hooks函数 传入图片的路径 并且返回一个[img_用户名]的名称
       style.value = `background-image:url(images/${imgname.value})`;
-     
     }
     var off = async () => {
       // 发送请求 删除session
@@ -68,6 +84,11 @@ export default defineComponent({
       });
       console.log(re.data);
       if (re.data.status) {
+        ElMessage.success({
+          message: re.data.message,
+          showClose: true,
+          type: "success",
+        });
         //   注销成功
         router.replace({
           path: "/login",
@@ -93,7 +114,7 @@ export default defineComponent({
   position: absolute;
   animation: bcc alternate 10s infinite linear;
 }
-.box {
+.boxs {
   height: 50vh;
   padding: 20px;
 }

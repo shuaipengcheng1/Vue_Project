@@ -9,7 +9,7 @@
       </div>
     </router-link>
   </div>
-
+  <!-- 如果组件的setup函数是一个async函数 那么他的父组件必须使用 Suspense包裹该组件 -->
   <!-- 轮播图 -->
   <Suspense>
     <template #default>

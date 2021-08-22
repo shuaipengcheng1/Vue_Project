@@ -1,45 +1,68 @@
 <template>
   <!-- 底部组件 -->
-  
+
   <div class="bottom_btn_list">
-    <div class="query_btn">
-      <router-link to="/">
+    <div
+      class="query_btn"
+      v-for="(item, index) in list"
+      :key="index"
+      @click="click(index)"
+    >
+      <router-link :to="item.path">
         <div class="contain">
-          <i class="iconfont icon-shouye"></i>
-          首页
-        </div>
-      </router-link>
-    </div>
-    <div class="query_btn">
-      <router-link to="/part">
-        <div class="contain">
-          <i class="iconfont icon-dingdan"></i>
-          分类
-        </div>
-      </router-link>
-    </div>
-    <div class="query_btn">
-      <router-link to="/carf">
-        <div class="contain">
-          <i class="iconfont icon-gouwuchekong"></i>
-          购物车
-        </div>
-      </router-link>
-    </div>
-    <div class="query_btn">
-      <router-link to="personal">
-        <div class="contain">
-          <i class="iconfont icon-kefu"></i>
-          个人中心
+          <i :class="item.icon" :style="item.status?'color:red; font-weight:bold;':'color:pink'"></i>
+          {{ item.name }}
         </div>
       </router-link>
     </div>
   </div>
 </template>
- <script lang='ts'>
-import { defineComponent } from "vue";
+ <script >
+import { defineComponent, reactive} from "vue";
 export default defineComponent({
   name: "Bottom",
+  setup() {
+    var list = reactive([
+      {
+        name: "首页",
+        icon: "iconfont icon-shouye",
+        path: "/",
+        status: true,
+      },
+      {
+        name: "分类",
+        icon: "iconfont icon-dingdan",
+        path: "/part",
+        status: false,
+      },
+      {
+        name: "购物车",
+        icon: "iconfont icon-gouwuchekong",
+        path: "/carf",
+        status: false,
+      },
+      {
+        name: "个人中心",
+        icon: "iconfont icon-kefu",
+        path: "/personal",
+        status: false,
+      },
+    ]);
+    var click = (index) => {
+      // 将对应的index的对象 设为true
+      // console.log(list)
+   for(var i=0;i<list.length;i++){
+    //  console.log(list[i])
+     list[i].status=false
+   }
+      list[index].status = true;
+    };
+
+    return {
+      list,
+      click,
+    };
+  },
 });
 </script>
 <style lang="less">
