@@ -1,53 +1,29 @@
- <template>
-  <!-- 分类 -->
-  <swiper
-    :loop="swiper_option.loop"
-    :autoplay="swiper_option.autoplay"
-    ref="mySwiper"
-    :options="swiperOptions"
-  >
-    <swiper-slide>Slide 1</swiper-slide>
-    <swiper-slide>Slide 2</swiper-slide>
-    <swiper-slide>Slide 3</swiper-slide>
-    <swiper-slide>Slide 4</swiper-slide>
-    <swiper-slide>Slide 5</swiper-slide>
-  </swiper>
-</template>
- <script lang='ts'>
-import "swiper/components/navigation/navigation.less";
-import "swiper/components/pagination/pagination.less";
-import { Swiper, SwiperSlide } from "swiper/vue";
+<template>
 
-import SwiperCore, {
-  Autoplay,
-  Pagination,
-  EffectCoverflow,
-  Navigation,
-} from "swiper";
-import { defineComponent, reactive } from "vue";
-SwiperCore.use([Autoplay, Pagination, EffectCoverflow, Navigation]);
+  <Suspense>
+    <template #default>
+      <!-- 第一个模板放对应的需要过度的异步模块 -->
+      <Part />
+    </template>
+    <template v-slot:fallback>
+      <!-- 第二个是用于过度显示的信息 -->
+      <h1>正在加载中</h1>
+    </template>
+  </Suspense>
+ 
+</template>
+
+<script>
+
+import { defineComponent } from "vue";
+import Part from "../components/part._box.vue";
+// import Request from "../hooks/axios";
 export default defineComponent({
-  name: "Part",
+
   components: {
-    Swiper,
-    SwiperSlide,
+    Part,
+ 
   },
-  setup() {
-    let swiper_option = reactive({
-      autoplay: {
-        delay: 4000,
-      },
-      loop: true,
-      slidesPerView: "auto",
-    });
-    return {
-      swiper_option,
-    };
-    // return {
-    //   swiperOptions: {},
-    // };
-  },
+  setup() {},
 });
 </script>
-<style>
-</style>

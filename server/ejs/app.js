@@ -1,7 +1,6 @@
 var express = require('express');
 var path = require('path');
 var session = require('express-session')
-var upload = require('upload')
 
 /* 
 在做vue全家桶+express 做项目。 想做一个免登陆功能，选择session方案。 服务器设置session 后， 
@@ -22,7 +21,6 @@ var corsOptions = {
   }
   app.use(cors(corsOptions))
   //设置跨域
-
 // app.all('*', function (req, res, next) {
 //     res.header("Access-Control-Allow-Origin", req.headers.origin); //需要显示设置来源
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
