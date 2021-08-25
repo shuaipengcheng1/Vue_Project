@@ -18,9 +18,9 @@ var corsOptions = {
     credentials: true,
     maxAge: '1728000'
     //这一项是为了跨域专门设置的
-  }
-  app.use(cors(corsOptions))
-  //设置跨域
+}
+app.use(cors(corsOptions))
+//设置跨域
 // app.all('*', function (req, res, next) {
 //     res.header("Access-Control-Allow-Origin", req.headers.origin); //需要显示设置来源
 //     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -33,6 +33,7 @@ var loginRouter = require('./routes/login')
 var submitRouter = require('./routes/submit')
 var exitRouter = require('./routes/exit')
 var uploadRouter = require('./routes/upload')
+var subscribeRouter = require('./routes/subscribe')
 // 解析post
 app.use(express.urlencoded({ extended: false })); //在req.body中
 app.use(express.json());
@@ -49,10 +50,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 注册路由
 app.use('/login', loginRouter)
 app.use('/submit', submitRouter)
-app.use('/exit',exitRouter)
-app.use('/upload',uploadRouter)
+app.use('/exit', exitRouter)
+app.use('/upload', uploadRouter)
+app.use('/subscribe', subscribeRouter)
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send('hello')
 })
 app.listen(3000, () => {

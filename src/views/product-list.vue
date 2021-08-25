@@ -21,6 +21,7 @@
       class="infinite-list-item"
       @scroll="load"
       :key="index"
+      @click="goto(i)"
     >
       <div id="list_item">
         <!-- 图片 -->
@@ -44,7 +45,7 @@
 // import Request from "../hooks/axios";
 import axios from "axios";
 import { defineComponent, reactive, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute,useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 
 export default defineComponent({
@@ -52,6 +53,7 @@ export default defineComponent({
 
   async setup() {
     var route = useRoute();
+    var router = useRouter()
     // 获取id
     var cid = route.query.cid;
     // 响应式数据
@@ -67,7 +69,6 @@ export default defineComponent({
     // 设置页码
     var page = ref(1);
     // 根据cid发送请求
-
     var v = await axios({
       url: `https://api-hmugo-web.itheima.net/api/public/v1/goods/search?cid=${cid}&pagenum=${page.value}&pagesize=10`,
       method: "GET",
@@ -89,7 +90,14 @@ export default defineComponent({
 
     // 总页码 = 总数据/一页的数据
     var total_page = Math.floor(total / 10);
+    //  跳转到详情
+  function goto(i) {
+     router.push({
+       path:`/Product_info/${i.goods_id}`
+     })
+    }
 
+    //  无限加载
     async function load() {
       console.log("load");
       if (isloading.value) {
@@ -144,6 +152,7 @@ export default defineComponent({
       cid,
       total,
       data,
+      goto,
       total_page,
       load,
       last_page,
@@ -188,13 +197,9 @@ export default defineComponent({
       flex-flow: column;
       p {
         overflow: hidden;
-
         text-overflow: ellipsis;
-
         display: -webkit-box;
-
         -webkit-line-clamp: 2;
-
         -webkit-box-orient: vertical;
       }
       #price {

@@ -8,6 +8,7 @@ import Submit from '../views/Submit.vue'
 import Login from '../views/Login.vue'
 import Self_center from '../views/Person_page.vue'
 import Product from '../views/product-list.vue'
+import Product_info from '../views/product_info.vue'
 const routes = [
   {
     path: '/',
@@ -57,6 +58,12 @@ const routes = [
     name: "productList",
 
     component:Product
+  },
+  {
+    path:"/Product_info/:cid",
+    name: "Product_info",
+  component:Product_info
+    // component:()=>{import('../views/product_info.vue')}
   }
 
 ]
