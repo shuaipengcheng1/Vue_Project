@@ -1,4 +1,12 @@
  <template>
+  <div class="title">
+    <div class="l" @click="goback">
+      <i class="iconfont icon-to-back"></i>
+    </div>
+    <div class="r">
+      <h1>商品详情</h1>
+    </div>
+  </div>
   <!-- 商品详情 -->
   <div class="head_img">
     <!-- 大图 -->
@@ -41,7 +49,7 @@
     </div>
     <div class="rigth">
       <!-- 右侧 -->
-      <div class="caft">购物车</div>
+      <div class="caft" @click="addcaft(data.goods_id)">购物车</div>
       <div class="buy">购买</div>
     </div>
   </div>
@@ -62,14 +70,56 @@ export default defineComponent({
     //   是否收藏了
     var isSubscribe = ref(false);
     var router = useRouter();
+   async function addcaft(i) {
+      // 添加购物车
+      var data = await axios({
+        url: `http://localhost:3000/caft/add/${i}`,
+        method: "GET",
+        withCredentials: true,
+      });
+      console.log(data.data)
+           if (data.data.status) {
+        // 收藏成功
+        ElMessage.success({
+          message: data.data.message,
+          type: "success",
+          showClose: true,
+        });
+        if (data.data.message == "收藏取消") {
+          isSubscribe.value = false;
+        } else {
+          isSubscribe.value = data.data.status;
+        }
+      } else {
+        ElMessage.error({
+          message: data.data.message,
+          type: "error",
+          showClose: true,
+        });
+        if (data.data.message == "不能超过十个收藏哦~") {
+          return;
+        }
+        if (data.data.message == "服务器问题") {
+          return;
+        } else {
+          // 跳转
+          router.push({
+            path: "/login",
+          });
+        }
+      }
+    }
+    // 返回上一级
+    function goback() {
+      router.go(-1);
+    }
     // 一来发送的请求 查看是否收藏了该物品/check/:cid
     var sta = await axios({
       url: `http://localhost:3000/subscribe/check/${cid}`,
       method: "GET",
-        withCredentials: true,
-
+      withCredentials: true,
     });
-    console.log(sta)
+    console.log(sta);
     isSubscribe.value = sta.data.status;
 
     // 根据id获取商品信息
@@ -89,7 +139,7 @@ export default defineComponent({
         withCredentials: true,
       });
       if (data.data.status) {
-        console.log(data);
+        // 收藏成功
         ElMessage.success({
           message: data.data.message,
           type: "success",
@@ -106,7 +156,9 @@ export default defineComponent({
           type: "error",
           showClose: true,
         });
-
+        if (data.data.message == "不能超过十个收藏哦~") {
+          return;
+        }
         if (data.data.message == "服务器问题") {
           return;
         } else {
@@ -118,14 +170,31 @@ export default defineComponent({
       }
     }
     return {
+      addcaft,
       data,
       isSubscribe,
       submit,
+      goback,
     };
   },
 });
 </script>
 <style lang='less'>
+.title {
+  position: relative;
+  .l {
+    position: absolute;
+    left: 2vw;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    i {
+      font-size: 30px;
+      color: red;
+    }
+  }
+}
 .head_img {
   width: 100%;
   height: 50vh;

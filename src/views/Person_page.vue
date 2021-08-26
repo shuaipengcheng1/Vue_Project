@@ -1,40 +1,40 @@
  <template>
   <!-- 个人页面 -->
   <!-- 进入时 发送请求 查看是否由缓存 否则登录 -->
-  <div style="height:1200px;">
-  <h1>个人页面</h1>
-  <div class="mohu" :style="style">
-    <!-- 头像高斯模糊背景 -->
-  </div>
-  <div class="boxs">
-    <div class="mohu_cover">
-      <!-- 高斯模糊遮罩层 -->
-      <!-- 头像 -->
+  <div style="height: 1200px">
+    <h1>个人页面</h1>
+    <div class="mohu" :style="style">
+      <!-- 头像高斯模糊背景 -->
+    </div>
+    <div class="boxs">
+      <div class="mohu_cover">
+        <!-- 高斯模糊遮罩层 -->
+        <!-- 头像 -->
 
-      <div class="icon" :style="style"></div>
+        <div class="icon" :style="style"></div>
+      </div>
     </div>
-  </div>
-  <!-- 名称 -->
-  <div class="name_box">
-    <p>{{ user }}</p>
-  </div>
+    <!-- 名称 -->
+    <div class="name_box">
+      <p>{{ user }}</p>
+    </div>
     <el-upload
-  class="upload-demo"
-  drag
-  name='img'
-  with-credentials="true"
-  action="http://localhost:3000/upload/page/p"
-  multiple>
-  <i class="el-icon-upload"></i>
-  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-  <template #tip>
-    <div class="el-upload__tip">
-      只能上传 jpg/png 文件，且不超过 500kb
-    </div>
-  </template>
-</el-upload>
-  <!-- 注销  删除对应的session req.session.destory-->
-  <p class="del" @click="off">注销</p>
+      class="upload-demo"
+      drag
+      name="img"
+      with-credentials="true"
+      action="http://localhost:3000/upload/page/p"
+      multiple
+    >
+      <i class="el-icon-upload"></i>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      <template #tip>
+        <div class="el-upload__tip">只能上传 jpg/png 文件，且不超过 500kb</div>
+      </template>
+    </el-upload>
+    <!-- 注销  删除对应的session req.session.destory-->
+    <div class="s" @click="subscribe">我的收藏</div>
+    <p class="del" @click="off">注销</p>
   </div>
 </template>
  <script >
@@ -95,16 +95,30 @@ export default defineComponent({
         });
       }
     };
+    // 进入我的收藏
+    function subscribe() {
+      router.push({
+        path:"/subscribe"
+      })
+      }
     return {
       off,
       user,
       icon,
       style,
+      subscribe
     };
   },
 });
 </script>
 <style lang="less">
+.s{
+  border: 1px solid black;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .mohu {
   width: 100%;
   height: 300px;

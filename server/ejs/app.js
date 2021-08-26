@@ -34,6 +34,7 @@ var submitRouter = require('./routes/submit')
 var exitRouter = require('./routes/exit')
 var uploadRouter = require('./routes/upload')
 var subscribeRouter = require('./routes/subscribe')
+var caftRouter = require('./routes/caft')
 // 解析post
 app.use(express.urlencoded({ extended: false })); //在req.body中
 app.use(express.json());
@@ -53,6 +54,7 @@ app.use('/submit', submitRouter)
 app.use('/exit', exitRouter)
 app.use('/upload', uploadRouter)
 app.use('/subscribe', subscribeRouter)
+app.use('/caft',caftRouter)
 
 app.get('/', (req, res) => {
     res.send('hello')

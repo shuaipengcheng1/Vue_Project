@@ -1,6 +1,9 @@
  <template>
   <!-- 搜索 -->
-  <div class="serch_box" style="position: fixed">
+  <div class="serch_box" style="position: fixed;">
+       <div class="l" @click="goback">
+      <i class="iconfont icon-to-back"></i>
+    </div>
     <router-link to="/serch">
       <div class="serch_btn">
         <p>搜索</p>
@@ -96,7 +99,9 @@ export default defineComponent({
        path:`/Product_info/${i.goods_id}`
      })
     }
-
+   function goback(){
+     router.go(-1)
+   }
     //  无限加载
     async function load() {
       console.log("load");
@@ -117,6 +122,7 @@ export default defineComponent({
         url: `https://api-hmugo-web.itheima.net/api/public/v1/goods/search?cid=${cid}&pagenum=${page.value}&pagesize=10`,
         method: "GET",
       });
+
       // 检查数据
       for (var i = 0; i < v.data.message.goods.length; i++) {
         if (v.data.message.goods[i].goods_small_logo == "") {
@@ -157,12 +163,28 @@ export default defineComponent({
       load,
       last_page,
       page,
+      goback,
       isloading,
     };
   },
 });
 </script>
 <style lang='less'>
+.serch_box{
+  position: relative;
+}
+.l{
+  position: absolute;
+  left: 2vw;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  i{
+    font-size: 30px;
+    color: black;
+  }
+}
 .infinite-list {
   display: flex;
   flex-flow: column;
