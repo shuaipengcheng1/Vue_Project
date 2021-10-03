@@ -10,6 +10,7 @@ import Self_center from '../views/Person_page.vue'
 import Product from '../views/product-list.vue'
 import Product_info from '../views/product_info.vue'
 import subscribe from '../views/subscribe.vue'
+import Vip from '../views/Vip.vue'
 const routes = [
   {
     path: '/',
@@ -69,6 +70,11 @@ const routes = [
     path:"/subscribe",
     name:"subscribe",
 component:subscribe
+  },
+  {
+    path:"/Vip",
+    name:"Vip",
+  component:Vip
   }
 
 ]

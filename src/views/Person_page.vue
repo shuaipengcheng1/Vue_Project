@@ -17,6 +17,7 @@
     <!-- 名称 -->
     <div class="name_box">
       <p>{{ user }}</p>
+      <span v-show="isVip">Vip用户</span> <span v-show="!isVip">普通用户</span>
     </div>
     <el-upload
       class="upload-demo"
@@ -34,6 +35,8 @@
     </el-upload>
     <!-- 注销  删除对应的session req.session.destory-->
     <div class="s" @click="subscribe">我的收藏</div>
+    <div class="s" @click="Vip">申请ViP</div>
+
     <p class="del" @click="off">注销</p>
   </div>
 </template>
@@ -42,9 +45,10 @@ import Request from "../hooks/axios";
 import { ElMessage } from "element-plus";
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
 export default defineComponent({
   name: "Person_page",
-  setup() {
+  async setup() {
     var router = useRouter();
     var route = useRoute();
     var style = ref();
@@ -54,6 +58,9 @@ export default defineComponent({
     var icon = ref();
     // 头像名字
     var imgname = ref();
+    // 是否为Vip
+    var IsVip = ref(false);
+    var VipMe = ref("");
     //  判断是否为跳转进入
     if (route.query == {}) {
       // 跳转到登录界面
@@ -98,21 +105,53 @@ export default defineComponent({
     // 进入我的收藏
     function subscribe() {
       router.push({
-        path:"/subscribe"
-      })
-      }
+        path: "/subscribe",
+      });
+    }
+    function Vip() {
+      // 跳转到Vip申请页面
+      router.push({
+        path: "/Vip",
+      });
+    }
+
+    // 发送请求判断是否为vip
+    var re = await axios({
+      url: "http://localhost:3000/vip/check/isVip",
+      method: "get",
+      withCredentials: true,
+    });
+    console.log(re.data.message);
+    IsVip.value = re.data.type;
+    VipMe = re.data.message;
+    if (IsVip.value) {
+      ElMessage({
+        message: "欢迎你 vip用户~",
+        type: "success",
+        showClose: true,
+      });
+    } else {
+      ElMessage({
+        message: "欢迎你 普通用户" + VipMe.value,
+        type: "success",
+        showClose: true,
+      });
+    }
     return {
       off,
       user,
       icon,
       style,
-      subscribe
+      subscribe,
+      Vip,
+      IsVip,
+      VipMe,
     };
   },
 });
 </script>
 <style lang="less">
-.s{
+.s {
   border: 1px solid black;
   height: 4rem;
   display: flex;
